@@ -51,17 +51,44 @@ try {
 Write-Host ""
 Write-Host "⚙️  CONFIGURING CLAUDE DESKTOP..." -ForegroundColor Yellow
 
-# Check if Claude Desktop config exists
-$claudeConfigPath = "$env:APPDATA\Claude\claude_desktop_config.json"
-$configExists = Test-Path $claudeConfigPath
+# Define possible Claude Desktop config locations
+$claudeConfigPaths = @(
+    "$env:APPDATA\Claude\claude_desktop_config.json",
+    "$env:LOCALAPPDATA\AnthropicClaude\claude_desktop_config.json"
+)
 
-if ($configExists) {
-    Write-Host "✓ Found existing Claude Desktop configuration" -ForegroundColor Green
-    Write-Host "   Manual merge required - see sequential-thinking-config.json" -ForegroundColor Yellow
-} else {
-    Write-Host "⚠️  Claude Desktop config not found" -ForegroundColor Yellow
-    Write-Host "   You can copy sequential-thinking-config.json to:" -ForegroundColor White
-    Write-Host "   $claudeConfigPath" -ForegroundColor White
+$configSource = "mcp-servers\configs\sequential-thinking-config.json"
+$configDeployed = $false
+
+foreach ($configPath in $claudeConfigPaths) {
+    $configDir = Split-Path $configPath -Parent
+
+    # Create directory if it doesn't exist
+    if (!(Test-Path $configDir)) {
+        New-Item -ItemType Directory -Force -Path $configDir | Out-Null
+        Write-Host "✓ Created directory: $configDir" -ForegroundColor Green
+    }
+
+    # Check if config already exists
+    if (Test-Path $configPath) {
+        Write-Host "⚠️  Found existing config at: $configPath" -ForegroundColor Yellow
+        Write-Host "   Backing up existing config..." -ForegroundColor White
+        Copy-Item $configPath -Destination "$configPath.backup" -Force
+    }
+
+    # Copy our config
+    try {
+        Copy-Item $configSource -Destination $configPath -Force
+        Write-Host "✓ Deployed config to: $configPath" -ForegroundColor Green
+        $configDeployed = $true
+    } catch {
+        Write-Host "❌ Failed to deploy config to: $configPath" -ForegroundColor Red
+    }
+}
+
+if (!$configDeployed) {
+    Write-Host "❌ Failed to deploy configuration to any location" -ForegroundColor Red
+    Write-Host "   Manual setup required - see sequential-thinking-config.json" -ForegroundColor Yellow
 }
 
 Write-Host ""
@@ -69,7 +96,7 @@ Write-Host "🎯 TESTING INSTALLATION..." -ForegroundColor Yellow
 
 # Test if the server can be started
 try {
-    $testResult = npx @modelcontextprotocol/server-sequential-thinking --help
+    npx @modelcontextprotocol/server-sequential-thinking --help | Out-Null
     Write-Host "✓ Sequential Thinking server responds correctly" -ForegroundColor Green
 } catch {
     Write-Host "⚠️  Unable to test server - this is normal if Claude Desktop isn't configured yet" -ForegroundColor Yellow
@@ -78,9 +105,18 @@ try {
 Write-Host ""
 Write-Host "🏍️  LIGHT CYCLE DEPLOYED - SEQUENTIAL THINKING READY!" -ForegroundColor Cyan
 Write-Host ""
+Write-Host "Configuration deployed to:" -ForegroundColor White
+Write-Host "• $env:APPDATA\Claude\claude_desktop_config.json" -ForegroundColor White
+Write-Host "• $env:LOCALAPPDATA\AnthropicClaude\claude_desktop_config.json" -ForegroundColor White
+Write-Host ""
+Write-Host "🤖 STARTUP BEHAVIOR:" -ForegroundColor Yellow
+Write-Host "• MCP servers start AUTOMATICALLY when Claude Desktop opens" -ForegroundColor Green
+Write-Host "• No manual startup required each time you turn on your computer" -ForegroundColor Green
+Write-Host "• Claude Desktop manages the server lifecycle" -ForegroundColor Green
+Write-Host ""
 Write-Host "Next steps:" -ForegroundColor White
-Write-Host "1. Restart Claude Desktop" -ForegroundColor White
-Write-Host "2. The Sequential Thinking protocol should now be available" -ForegroundColor White
+Write-Host "1. Restart Claude Desktop completely (close and reopen)" -ForegroundColor White
+Write-Host "2. Look for 'Sequential Thinking' in Claude's available tools" -ForegroundColor White
 Write-Host "3. Test by asking Claude to solve a complex reasoning problem" -ForegroundColor White
 Write-Host ""
 Write-Host "Status: OPERATIONAL ⚡" -ForegroundColor Green
