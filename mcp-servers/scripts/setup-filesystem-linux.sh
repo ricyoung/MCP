@@ -1,8 +1,8 @@
 #!/bin/bash
-# MCP Grid Setup Script - Sequential Thinking (Linux)
-# Sets up the Sequential Thinking MCP server for enhanced reasoning
+# MCP Grid Setup Script - Filesystem (Linux)
+# Sets up the Filesystem MCP server for file operations
 
-echo "🔵 INITIALIZING SEQUENTIAL THINKING PROTOCOL..."
+echo "📁 INITIALIZING FILESYSTEM PROTOCOL..."
 echo ""
 
 # Check if Node.js is installed
@@ -30,22 +30,22 @@ else
 fi
 
 echo ""
-echo "🚀 INSTALLING SEQUENTIAL THINKING MCP SERVER..."
+echo "🚀 INSTALLING FILESYSTEM MCP SERVER..."
 
-# Install the Sequential Thinking MCP server
-if npm install -g @modelcontextprotocol/server-sequential-thinking; then
-    echo "✓ Sequential Thinking MCP server installed successfully"
+# Install the Filesystem MCP server
+if npm install -g @modelcontextprotocol/server-filesystem; then
+    echo "✓ Filesystem MCP server installed successfully"
 else
-    echo "❌ Failed to install Sequential Thinking MCP server"
+    echo "❌ Failed to install Filesystem MCP server"
     echo "   Trying alternative installation method..."
 
     # Alternative: local installation
-    if mkdir -p mcp-servers/shared/sequential-thinking && \
-       cd mcp-servers/shared/sequential-thinking && \
+    if mkdir -p mcp-servers/shared/filesystem && \
+       cd mcp-servers/shared/filesystem && \
        npm init -y && \
-       npm install @modelcontextprotocol/server-sequential-thinking && \
+       npm install @modelcontextprotocol/server-filesystem && \
        cd ../../..; then
-        echo "✓ Sequential Thinking MCP server installed locally"
+        echo "✓ Filesystem MCP server installed locally"
     else
         echo "❌ Installation failed. Please check your network connection and try again."
         exit 1
@@ -58,7 +58,26 @@ echo "⚙️  CONFIGURING CLAUDE DESKTOP..."
 # Define Claude Desktop config path for Linux
 CLAUDE_CONFIG_DIR="$HOME/.config/Claude"
 CLAUDE_CONFIG_PATH="$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
-CONFIG_SOURCE="mcp-servers/configs/sequential-thinking-config.json"
+
+# Create filesystem config for Linux
+cat > mcp-servers/configs/filesystem-config-linux.json << 'EOF'
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home",
+        "/tmp",
+        "$(pwd)"
+      ]
+    }
+  }
+}
+EOF
+
+CONFIG_SOURCE="mcp-servers/configs/filesystem-config-linux.json"
 
 # Create directory if it doesn't exist
 if [ ! -d "$CLAUDE_CONFIG_DIR" ]; then
@@ -78,7 +97,7 @@ if cp "$CONFIG_SOURCE" "$CLAUDE_CONFIG_PATH"; then
     echo "✓ Deployed config to: $CLAUDE_CONFIG_PATH"
 else
     echo "❌ Failed to deploy config to: $CLAUDE_CONFIG_PATH"
-    echo "   Manual setup required - see sequential-thinking-config.json"
+    echo "   Manual setup required - see filesystem-config-linux.json"
     exit 1
 fi
 
@@ -86,14 +105,14 @@ echo ""
 echo "🎯 TESTING INSTALLATION..."
 
 # Test if the server can be started
-if npx @modelcontextprotocol/server-sequential-thinking --help &> /dev/null; then
-    echo "✓ Sequential Thinking server responds correctly"
+if npx @modelcontextprotocol/server-filesystem --help &> /dev/null; then
+    echo "✓ Filesystem server responds correctly"
 else
     echo "⚠️  Unable to test server - this is normal if Claude Desktop isn't configured yet"
 fi
 
 echo ""
-echo "🏍️  LIGHT CYCLE DEPLOYED - SEQUENTIAL THINKING READY!"
+echo "📁 FILE SYSTEM ACCESS DEPLOYED - FILESYSTEM READY!"
 echo ""
 echo "Configuration deployed to:"
 echo "• $CLAUDE_CONFIG_PATH"
@@ -103,9 +122,19 @@ echo "• MCP servers start AUTOMATICALLY when Claude Desktop opens"
 echo "• No manual startup required each time you turn on your computer"
 echo "• Claude Desktop manages the server lifecycle"
 echo ""
+echo "🔐 SECURITY:"
+echo "• Access restricted to configured directories only"
+echo "• Sandboxed operations for safe AI interactions"
+echo "• No access to files outside allowed paths"
+echo ""
+echo "📂 ALLOWED DIRECTORIES:"
+echo "• /home (User home directories)"
+echo "• /tmp (Temporary files)"
+echo "• Current working directory"
+echo ""
 echo "Next steps:"
 echo "1. Restart Claude Desktop completely (close and reopen)"
-echo "2. Look for 'Sequential Thinking' in Claude's available tools"
-echo "3. Test by asking Claude to solve a complex reasoning problem"
+echo "2. Look for 'Filesystem' in Claude's available tools"
+echo "3. Test by asking Claude to list files or read a document"
 echo ""
-echo "Status: OPERATIONAL ⚡"
+echo "Status: OPERATIONAL 📁"

@@ -28,6 +28,14 @@ Welcome to the **MCP GRID** - a digital frontier where Model Context Protocol se
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
+```
+┌─ MCP SERVER STATUS ──────────────────────────────────────────────────────────┐
+│ ● SEQUENTIAL-THINKING │ ████████████████████████████████ │ ACTIVE            │
+│ ● FILESYSTEM         │ ████████████████████████████████ │ ACTIVE            │
+│ ● COMBINED-CONFIG    │ ████████████████████████████████ │ DEPLOYED          │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
 ## 🔷 GRID ARCHITECTURE
 
 The MCP Grid follows a **dual-paradigm architecture** optimized for both application-specific deployment and functional categorization:
@@ -36,6 +44,7 @@ The MCP Grid follows a **dual-paradigm architecture** optimized for both applica
 ```
 mcp-servers/
 ├── 🔵 shared/                    # Cross-platform protocols
+│   ├── filesystem/              # File operations and directory management
 │   ├── sequential-thinking/      # Enhanced reasoning chains
 │   ├── duckduckgo/              # Search integration
 │   ├── memory-bank/             # Persistent knowledge store
@@ -63,6 +72,7 @@ mcp-servers/
 ```
 mcp-servers/
 ├── ⚡ core/                      # Mission-critical protocols
+│   ├── filesystem/             # File operations and directory management
 │   ├── github/                  # Version control integration
 │   ├── duckduckgo/             # Universal search
 │   └── memory-bank/            # Knowledge persistence
@@ -101,6 +111,7 @@ mcp-servers/
 
 ### ⚡ **CORE PROTOCOLS**
 Essential systems required for basic Grid functionality:
+- **Filesystem** - File operations and directory management
 - **GitHub Integration** - Repository management and version control
 - **DuckDuckGo Search** - Universal information retrieval
 - **Memory Bank** - Persistent knowledge storage across sessions
@@ -159,6 +170,112 @@ cd mcp-servers
 # Deploy Sequential Thinking protocol
 chmod +x scripts/setup-sequential-thinking-linux.sh
 ./scripts/setup-sequential-thinking-linux.sh
+```
+
+**Ollama (Cross-platform):**
+```bash
+# Navigate to the MCP Grid
+cd mcp-servers
+
+# Deploy Sequential Thinking for Ollama integration
+chmod +x scripts/setup-sequential-thinking-ollama.sh
+./scripts/setup-sequential-thinking-ollama.sh
+```
+
+### Quick Start: Filesystem Operations
+Ready to access file system capabilities? Install the Filesystem MCP server:
+
+**Windows:**
+```powershell
+# Navigate to the MCP Grid
+cd mcp-servers
+
+# Deploy Filesystem protocol
+.\scripts\setup-filesystem.ps1
+```
+
+**macOS:**
+```bash
+# Navigate to the MCP Grid
+cd mcp-servers
+
+# Deploy Filesystem protocol
+chmod +x scripts/setup-filesystem-macos.sh
+./scripts/setup-filesystem-macos.sh
+```
+
+**Linux:**
+```bash
+# Navigate to the MCP Grid
+cd mcp-servers
+
+# Deploy Filesystem protocol
+chmod +x scripts/setup-filesystem-linux.sh
+./scripts/setup-filesystem-linux.sh
+```
+
+### Manual Installation (Filesystem)
+
+#### **Windows (PowerShell)**
+```powershell
+# Install the MCP server globally
+npm install -g @modelcontextprotocol/server-filesystem
+
+# Configure Claude Desktop with filesystem access
+# Copy mcp-servers\configs\filesystem-config.json
+# to %APPDATA%\Claude\claude_desktop_config.json
+```
+
+#### **macOS (Terminal)**
+```bash
+# Install the MCP server globally
+npm install -g @modelcontextprotocol/server-filesystem
+
+# Configure Claude Desktop (macOS)
+mkdir -p ~/Library/Application\ Support/Claude
+cp mcp-servers/configs/filesystem-config.json ~/Library/Application\ Support/Claude/claude_desktop_config.json
+```
+
+#### **Linux (Terminal)**
+```bash
+# Install the MCP server globally
+npm install -g @modelcontextprotocol/server-filesystem
+
+# Configure Claude Desktop (Linux)
+mkdir -p ~/.config/Claude
+cp mcp-servers/configs/filesystem-config.json ~/.config/Claude/claude_desktop_config.json
+```
+
+### Quick Start: Filesystem Operations
+Ready to access file system capabilities? Install the Filesystem MCP server:
+
+**Windows:**
+```powershell
+# Navigate to the MCP Grid
+cd mcp-servers
+
+# Deploy Filesystem protocol
+.\scripts\setup-filesystem.ps1
+```
+
+**macOS:**
+```bash
+# Navigate to the MCP Grid
+cd mcp-servers
+
+# Deploy Filesystem protocol
+chmod +x scripts/setup-filesystem-macos.sh
+./scripts/setup-filesystem-macos.sh
+```
+
+**Linux:**
+```bash
+# Navigate to the MCP Grid
+cd mcp-servers
+
+# Deploy Filesystem protocol
+chmod +x scripts/setup-filesystem-linux.sh
+./scripts/setup-filesystem-linux.sh
 ```
 
 ### Manual Installation (Sequential Thinking)
@@ -367,6 +484,98 @@ If Sequential Thinking doesn't seem active:
 
 ---
 
+## 🧪 TESTING FILESYSTEM OPERATIONS
+
+After installation and restarting Claude Desktop, test your Filesystem MCP server with these prompts:
+
+### **🎯 Basic File Operations**
+```
+Can you help me list the contents of my Documents folder?
+```
+
+### **🎯 File Reading Test**
+```
+Can you read the contents of a text file for me? Let me know what files are available first.
+```
+
+### **🎯 Directory Management**
+```
+Can you help me create a new folder structure for organizing my project files?
+```
+
+### **🔍 What to Look For**
+When Filesystem server is working, you should notice:
+- ✅ **Directory Listings** - Claude can show folder contents within allowed directories
+- ✅ **File Reading** - Ability to read and display file contents  
+- ✅ **File Writing** - Can create and modify files (within sandbox)
+- ✅ **Path Navigation** - Can move between directories safely
+
+### **🛠️ Troubleshooting Filesystem**
+If Filesystem operations don't work:
+1. Restart Claude Desktop completely
+2. Check that allowed directories exist and are accessible
+3. Verify the config includes proper directory permissions
+4. Try running: `npx @modelcontextprotocol/server-filesystem --help`
+
+### **🔒 Security Note**
+The Filesystem server is configured with sandbox restrictions to specific directories for security. Only the following directories are accessible:
+- `C:\Users` (Windows) / `~/` (macOS/Linux) - User home directory
+- `C:\github\MCP` (Windows) / `~/github/MCP` (macOS/Linux) - MCP Grid repository
+- `C:\temp` (Windows) / `/tmp` (macOS/Linux) - Temporary files
+
+---
+
+## 🧪 TESTING COMBINED SERVERS
+
+Test both Sequential Thinking and Filesystem servers working together:
+
+### **Combined Testing Scripts**
+
+**Windows:**
+```powershell
+# Run comprehensive test suite
+.\scripts\test-combined-servers.ps1
+```
+
+**macOS:**
+```bash
+# Run comprehensive test suite
+chmod +x scripts/test-combined-servers-macos.sh
+./scripts/test-combined-servers-macos.sh
+```
+
+**Linux:**
+```bash
+# Run comprehensive test suite
+chmod +x scripts/test-combined-servers-linux.sh
+./scripts/test-combined-servers-linux.sh
+```
+
+### **🎯 Combined Functionality Tests**
+
+**Reasoning + File Operations:**
+```
+Use sequential thinking to help me organize my project files. First analyze what's in my Documents folder, then create a logical folder structure.
+```
+
+**Step-by-Step File Management:**
+```
+Can you walk me through the process of cleaning up my desktop files? Use sequential thinking to break it down, then help me actually move the files.
+```
+
+**Analytical File Review:**
+```
+I have a folder of research documents. Can you use sequential thinking to analyze their contents and suggest how to organize them better?
+```
+
+### **🔍 What to Look For in Combined Mode**
+- ✅ **Integrated Responses** - Sequential thinking guides file operations
+- ✅ **Multi-Step Workflows** - Logical progression from analysis to action
+- ✅ **Context Awareness** - File content informs reasoning process
+- ✅ **Structured File Management** - Organized approach to filesystem tasks
+
+---
+
 ## 📊 GRID MONITORING
 
 ### Health Check Protocol
@@ -469,7 +678,7 @@ This MCP Grid represents more than just a collection of protocols - it's a unifi
 ╚══════════════════════════════════════════════════════════════════════════════════╝
 ```
 
-**Grid Version**: 1.0.0
-**Last Update**: 2025-05-25
-**Protocols Active**: Ready for deployment
+**Grid Version**: 1.0.0  
+**Last Update**: 2025-01-25  
+**Protocols Active**: Sequential Thinking, Filesystem  
 **Status**: OPERATIONAL
