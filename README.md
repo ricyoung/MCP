@@ -32,9 +32,67 @@ Welcome to the **MCP GRID** - a digital frontier where Model Context Protocol se
 ┌─ MCP SERVER STATUS ──────────────────────────────────────────────────────────┐
 │ ● SEQUENTIAL-THINKING │ ████████████████████████████████ │ ACTIVE            │
 │ ● FILESYSTEM         │ ████████████████████████████████ │ ACTIVE            │
+│ ● CONTEXT7           │ ████████████████████████████████ │ ACTIVE            │
+│ ● FIRECRAWL          │ ████████████████████████████████ │ ACTIVE            │
+│ ● APPLE-MCP          │ ████████████████████████████████ │ ACTIVE            │
 │ ● COMBINED-CONFIG    │ ████████████████████████████████ │ DEPLOYED          │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
+
+## 🚀 ACTIVE MCP SERVERS
+
+### Currently Installed and Configured:
+
+1. **🧠 Sequential Thinking** (`@modelcontextprotocol/server-sequential-thinking`)
+   - Enhanced reasoning and problem-solving through dynamic thought sequences
+   - Breaks down complex problems into sequential steps
+   - Maintains context across reasoning chains
+
+2. **📁 Filesystem** (`@modelcontextprotocol/server-filesystem`)
+   - File operations and directory management
+   - Sandboxed access to specific directories
+   - Read, write, and navigate file systems safely
+
+3. **💾 Context7** (`@upstash/context7-mcp`)
+   - Advanced memory and context management
+   - Persistent knowledge storage across sessions
+   - Enhanced conversation continuity
+
+4. **🔥 Firecrawl** (`firecrawl-mcp`)
+   - Web scraping and crawling capabilities
+   - Structured data extraction from websites
+   - LLM-powered content analysis
+   - Requires API key: Set `FIRECRAWL_API_KEY` in environment
+
+5. **💬 Mac Messages** (`mac-messages-mcp`)
+   - macOS Messages app integration
+   - Read and send iMessages
+   - Access message history
+   - Requires `uvx` command (install with `pip install uv`)
+   - **⚠️ Requires Full Disk Access permissions (see setup below)**
+
+## 🔐 PERMISSIONS & SECURITY
+
+### Mac Messages MCP - Full Disk Access Required
+
+The Mac Messages server requires **Full Disk Access** to read the Messages database. To grant permissions:
+
+1. Open **System Settings** → **Privacy & Security** → **Privacy** → **Full Disk Access**
+2. Click the lock icon and authenticate
+3. Add these applications:
+   - **Claude Desktop** (`/Applications/Claude.app`)
+   - **Terminal** (`/Applications/Utilities/Terminal.app`)
+   - **Python** (the executable used by uvx, typically `/usr/bin/python3`)
+4. **Fully quit and restart Claude Desktop**
+
+**Note:** The Messages database is located at `~/Library/Messages/chat.db` which is protected by macOS security.
+
+### API Keys Security
+
+**Firecrawl API Key**: 
+- Replace `YOUR_API_KEY_HERE` with your actual Firecrawl API key in the config files
+- Never commit API keys to version control
+- Consider using environment variables for production setups
 
 ## 🔷 GRID ARCHITECTURE
 
@@ -212,6 +270,93 @@ cd mcp-servers
 # Deploy Filesystem protocol
 chmod +x scripts/setup-filesystem-linux.sh
 ./scripts/setup-filesystem-linux.sh
+```
+
+## 📋 COMPLETE CONFIGURATION EXAMPLES
+
+### Claude Desktop Configuration
+Location: 
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+- **Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users",
+        "/tmp"
+      ]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-sequential-thinking"],
+      "env": {
+        "SEQUENTIAL_THINKING_MAX_DEPTH": "10",
+        "SEQUENTIAL_THINKING_TIMEOUT": "30000"
+      }
+    },
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "YOUR_API_KEY_HERE"
+      }
+    },
+    "messages": {
+      "command": "uvx",
+      "args": [
+        "mac-messages-mcp"
+      ]
+    }
+  }
+}
+```
+
+### Cursor IDE Configuration
+Location: `~/.cursor/mcp.json`
+
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users",
+        "/tmp"
+      ]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-sequential-thinking"],
+      "env": {
+        "SEQUENTIAL_THINKING_MAX_DEPTH": "10",
+        "SEQUENTIAL_THINKING_TIMEOUT": "30000"
+      }
+    },
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "YOUR_API_KEY_HERE"
+      }
+    }
+  }
+}
 ```
 
 ### Manual Installation (Filesystem)
@@ -678,7 +823,7 @@ This MCP Grid represents more than just a collection of protocols - it's a unifi
 ╚══════════════════════════════════════════════════════════════════════════════════╝
 ```
 
-**Grid Version**: 1.0.0  
-**Last Update**: 2025-01-25  
-**Protocols Active**: Sequential Thinking, Filesystem  
+**Grid Version**: 1.1.0  
+**Last Update**: 2025-05-26  
+**Protocols Active**: Sequential Thinking, Filesystem, Context7, Firecrawl, Mac Messages  
 **Status**: OPERATIONAL
