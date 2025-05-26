@@ -129,13 +129,30 @@ Beta and development-stage implementations
 
 ## 🔧 INSTALLATION & DEPLOYMENT
 
-### Quick Start Sequence
+### Quick Start: Sequential Thinking
+Ready to enhance your reasoning capabilities? Install the Sequential Thinking MCP server:
+
 ```powershell
-# Initialize the Grid
-git clone <your-repo-url> mcp-servers
+# Navigate to the MCP Grid
 cd mcp-servers
 
-# Deploy core protocols
+# Deploy Sequential Thinking protocol
+.\scripts\setup-sequential-thinking.ps1
+```
+
+### Manual Installation (Sequential Thinking)
+```powershell
+# Install the MCP server globally
+npm install -g @modelcontextprotocol/server-sequential-thinking
+
+# Configure Claude Desktop
+# Copy mcp-servers\configs\sequential-thinking-config.json
+# to %APPDATA%\Claude\claude_desktop_config.json
+```
+
+### Full Grid Deployment (Coming Soon)
+```powershell
+# Initialize the complete Grid (future update)
 .\scripts\setup-all.ps1
 
 # Configure application-specific protocols

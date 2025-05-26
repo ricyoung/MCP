@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "env": {
+        "SEQUENTIAL_THINKING_MAX_DEPTH": "10",
+        "SEQUENTIAL_THINKING_TIMEOUT": "30000"
+      }
+    }
+  }
+}
