@@ -35,6 +35,7 @@ Welcome to the **MCP GRID** - a digital frontier where Model Context Protocol se
 │ ● CONTEXT7           │ ████████████████████████████████ │ ACTIVE            │
 │ ● FIRECRAWL          │ ████████████████████████████████ │ ACTIVE            │
 │ ● APPLE-MCP          │ ████████████████████████████████ │ ACTIVE            │
+│ ● POWERPOINT         │ ████████████████████████████████ │ ACTIVE            │
 │ ● COMBINED-CONFIG    │ ████████████████████████████████ │ DEPLOYED          │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -70,6 +71,13 @@ Welcome to the **MCP GRID** - a digital frontier where Model Context Protocol se
    - Access message history
    - Requires `uvx` command (install with `pip install uv`)
    - **⚠️ Requires Full Disk Access permissions (see setup below)**
+
+6. **📊 PowerPoint** (`office-powerpoint-mcp-server`)
+   - Create and edit PowerPoint presentations
+   - Add slides with various layouts
+   - Insert text, images, tables, shapes, and charts
+   - Manipulate presentation properties
+   - Full python-pptx functionality via MCP
 
 ## 🔐 PERMISSIONS & SECURITY
 
@@ -316,6 +324,13 @@ Location:
       "args": [
         "mac-messages-mcp"
       ]
+    },
+    "powerpoint": {
+      "command": "uvx",
+      "args": [
+        "--from", "office-powerpoint-mcp-server", "ppt_mcp_server"
+      ],
+      "env": {}
     }
   }
 }
@@ -354,6 +369,13 @@ Location: `~/.cursor/mcp.json`
       "env": {
         "FIRECRAWL_API_KEY": "YOUR_API_KEY_HERE"
       }
+    },
+    "powerpoint": {
+      "command": "uvx",
+      "args": [
+        "--from", "office-powerpoint-mcp-server", "ppt_mcp_server"
+      ],
+      "env": {}
     }
   }
 }
@@ -825,5 +847,5 @@ This MCP Grid represents more than just a collection of protocols - it's a unifi
 
 **Grid Version**: 1.1.0  
 **Last Update**: 2025-05-26  
-**Protocols Active**: Sequential Thinking, Filesystem, Context7, Firecrawl, Mac Messages  
+**Protocols Active**: Sequential Thinking, Filesystem, Context7, Firecrawl, Mac Messages, PowerPoint  
 **Status**: OPERATIONAL
